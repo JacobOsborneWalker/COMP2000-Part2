@@ -1,5 +1,6 @@
 package com.example.comp20002;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -22,7 +23,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    // Interface to request
     interface RequestUser {
         @GET("employees")
         Call<List<UserData>> getUsers();
@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // set up features
         textView = findViewById(R.id.textView);
         LoginButton = findViewById(R.id.Login_Button);
         EnteredEmail = findViewById(R.id.email_input);
@@ -57,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
                 .addInterceptor(loggingInterceptor)
                 .build();
 
-        // Retrofit
+        // Retrofit setup
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://10.224.41.11/comp2000/")
                 .client(client)
@@ -83,41 +82,41 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-            // loading message
             textView.setText("Checking user credentials...");
 
-            // checking inputs
             requestUser.getUsers().enqueue(new Callback<List<UserData>>() {
                 @Override
                 public void onResponse(Call<List<UserData>> call, Response<List<UserData>> response) {
-                    if (response.isSuccessful() && response.body() != null) {
-                        boolean found = false;
-                        for (UserData user : response.body()) {
-                            if (user.email != null && user.email.equalsIgnoreCase(email) && user.id == userId) {
-                                textView.setText("Department: " + user.department);
-                                found = true;
-                                break;
+                    runOnUiThread(() -> {
+                        if (response.isSuccessful() && response.body() != null) {
+                            boolean found = false;
+                            for (UserData user : response.body()) {
+                                if (user.email != null && user.email.equalsIgnoreCase(email) && user.id == userId) {
+                                    found = true;
+                                    textView.setText("Department: " + user.department);
+                                    if (user.department.equalsIgnoreCase("HR")) {
+                                        Intent intent = new Intent(MainActivity.this, AdminPortal.class);
+                                        startActivity(intent);
+                                    } else {
+                                        textView.setText(user.department);
+                                    }
+                                    break;
+                                }
                             }
+                            if (!found) {
+                                textView.setText("No matching user found. Please check your email and ID.");
+                            }
+                        } else {
+                            textView.setText("Error: Unable to fetch data. Response code: " + response.code());
                         }
-                        // not found
-                        if (!found) {
-                            textView.setText("No matching user found. Please check your email and ID.");
-                        }
-
-                        // cannot find any data
-                    } else {
-                        textView.setText("Error: Unable to fetch data. Response code: " + response.code());
-                    }
+                    });
                 }
 
-                // issues with network
                 @Override
                 public void onFailure(Call<List<UserData>> call, Throwable t) {
-                    textView.setText("Network error: " + t.getMessage() + ". Please try again.");
+                    runOnUiThread(() -> textView.setText("Network error: " + t.getMessage() + ". Please try again."));
                 }
             });
         });
-
-
     }
 }
