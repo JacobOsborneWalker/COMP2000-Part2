@@ -72,8 +72,9 @@ public class MainActivity extends AppCompatActivity {
 
             if (email.equalsIgnoreCase("test")) {
                 Intent intent = new Intent(MainActivity.this, AdminPortal.class);
-                intent.putExtra("FIRST_NAME", "Test");
-                intent.putExtra("LAST_NAME", "User");
+                intent.putExtra("fn", "Test");
+                intent.putExtra("ln", "User");
+                intent.putExtra("email", "email@gmail.com");
                 startActivity(intent);
                 return;
             }
@@ -106,8 +107,9 @@ public class MainActivity extends AppCompatActivity {
                                     if ("HR".equalsIgnoreCase(user.department)) {
                                         // Pass first and last name to AdminPortal if department is HR
                                         Intent intent = new Intent(MainActivity.this, AdminPortal.class);
-                                        intent.putExtra("FIRST_NAME", user.firstname);
-                                        intent.putExtra("LAST_NAME", user.lastname);
+                                        intent.putExtra("fn", user.firstname);
+                                        intent.putExtra("email", user.email);
+                                        intent.putExtra("ln", user.lastname);
                                         startActivity(intent);
                                     } else {
                                         textView.setText("staff portal");

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.content.SharedPreferences;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,34 +18,38 @@ public class AdminPortal extends AppCompatActivity {
     Button PersonalDetails;
     Button NotificationButton;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_portal);
 
+        // Handle window insets (optional)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        // first and last name
+        // Get first and last name from Intent
         Intent intent = getIntent();
-        String firstName = intent.getStringExtra("FIRST_NAME");
-        String lastName = intent.getStringExtra("LAST_NAME");
+        String firstName = intent.getStringExtra("fn");
+        String lastName = intent.getStringExtra("ln");
+        String email = intent.getStringExtra("email");
 
-        // welcome message
+        // Display welcome message
         TextView welcomeTextView = findViewById(R.id.welcome_text);
         welcomeTextView.setText("Welcome, " + firstName + " " + lastName + "!");
 
-
         PersonalDetails = findViewById(R.id.Info_Button);
 
-        // personal details page
+
         PersonalDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(AdminPortal.this, "This is your Toast message!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(AdminPortal.this, PersonalDetailsPage.class);
+                intent.putExtra("email", email);
+                startActivity(intent);
             }
         });
     }
