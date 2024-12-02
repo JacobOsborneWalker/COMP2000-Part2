@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/loginbackground"
+    android:gravity="center"
+    android:padding="16dp"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/PersonalInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Personal Information" />
+
+        <EditText
+            android:id="@+id/LegalName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="FirstName"
+            android:text="FirstName" />
+
+        <EditText
+            android:id="@+id/Username"
+            android:layout_width="match_parent"
+            android:layout_height="63dp"
+            android:hint="LastName"
+            android:text="LastName" />
+
+        <EditText
+            android:id="@+id/PhoneNumber"
+            android:layout_width="match_parent"
+            android:layout_height="62dp"
+            android:hint="StaffID"
+            android:text="StaffID" />
+
+        <EditText
+            android:id="@+id/EmailAdress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email"
+            android:text="Email.Adress@gmail.com" />
+
+
+        <TextView
+            android:id="@+id/CurrentJob"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Current Position" />
+
+        <EditText
+            android:id="@+id/JobTitle"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:hint="Department"
+            android:text="Department" />
+
+        <EditText
+            android:id="@+id/JobSalary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Salary"
+            android:text="Salary" />
+
+        <EditText
+            android:id="@+id/JobOffice"
+            android:layout_width="match_parent"
+            android:layout_height="62dp"
+            android:hint="JoiningDate"
+            android:text="Date Started" />
+
+        <EditText
+            android:id="@+id/LeaveDates"
+            android:layout_width="match_parent"
+            android:layout_height="62dp"
+            android:hint="Leave Dates"
+            android:text="Leave Days Remaining" />
+        <Button
+            android:id="@+id/saveButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save Changes" />
+
+        <Button
+            android:id="@+id/Return"
+            android:layout_width="177dp"
+            android:layout_height="wrap_content"
+            android:text="Return" />
+    </LinearLayout>
+
+</RelativeLayout>

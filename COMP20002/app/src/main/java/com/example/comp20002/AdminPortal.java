@@ -1,14 +1,13 @@
 package com.example.comp20002;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.content.SharedPreferences;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -23,7 +22,6 @@ public class AdminPortal extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_admin_portal);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -32,33 +30,23 @@ public class AdminPortal extends AppCompatActivity {
             return insets;
         });
 
-        SharedPreferences sharedPreferences = getSharedPreferences("user_pref", MODE_PRIVATE);
+        // first and last name
+        Intent intent = getIntent();
+        String firstName = intent.getStringExtra("FIRST_NAME");
+        String lastName = intent.getStringExtra("LAST_NAME");
 
         // welcome message
         TextView welcomeTextView = findViewById(R.id.welcome_text);
+        welcomeTextView.setText("Welcome, " + firstName + " " + lastName + "!");
 
 
-        // buttons
-        // staff view
-        StaffViewButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
-        });
+        PersonalDetails = findViewById(R.id.Info_Button);
 
-        // personal details
+        // personal details page
         PersonalDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-            }
-        });
-
-        // notifications
-        NotificationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
+                Toast.makeText(AdminPortal.this, "This is your Toast message!", Toast.LENGTH_SHORT).show();
             }
         });
     }

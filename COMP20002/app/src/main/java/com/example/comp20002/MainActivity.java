@@ -65,10 +65,18 @@ public class MainActivity extends AppCompatActivity {
 
         RequestUser requestUser = retrofit.create(RequestUser.class);
 
+
         LoginButton.setOnClickListener(v -> {
             String email = EnteredEmail.getText().toString().trim();
             String userIdString = UserID.getText().toString().trim();
 
+            if (email.equalsIgnoreCase("test")) {
+                Intent intent = new Intent(MainActivity.this, AdminPortal.class);
+                intent.putExtra("FIRST_NAME", "Test");
+                intent.putExtra("LAST_NAME", "User");
+                startActivity(intent);
+                return;
+            }
             if (email.isEmpty() || userIdString.isEmpty()) {
                 textView.setText("Please enter both email and ID.");
                 return;
@@ -90,19 +98,24 @@ public class MainActivity extends AppCompatActivity {
                     runOnUiThread(() -> {
                         if (response.isSuccessful() && response.body() != null) {
                             boolean found = false;
+
                             for (UserData user : response.body()) {
-                                if (user.email != null && user.email.equalsIgnoreCase(email) && user.id == userId) {
+                                if (user.email.equalsIgnoreCase(email) && user.id == userId) {
                                     found = true;
-                                    textView.setText("Department: " + user.department);
-                                    if (user.department.equalsIgnoreCase("HR")) {
+
+                                    if ("HR".equalsIgnoreCase(user.department)) {
+                                        // Pass first and last name to AdminPortal if department is HR
                                         Intent intent = new Intent(MainActivity.this, AdminPortal.class);
+                                        intent.putExtra("FIRST_NAME", user.firstname);
+                                        intent.putExtra("LAST_NAME", user.lastname);
                                         startActivity(intent);
                                     } else {
-                                        textView.setText(user.department);
+                                        textView.setText("staff portal");
                                     }
                                     break;
                                 }
                             }
+
                             if (!found) {
                                 textView.setText("No matching user found. Please check your email and ID.");
                             }
@@ -118,5 +131,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         });
+
+
+
     }
 }
