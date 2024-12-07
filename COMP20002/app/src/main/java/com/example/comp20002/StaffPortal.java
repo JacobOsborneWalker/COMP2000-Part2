@@ -12,16 +12,16 @@ import androidx.core.view.WindowInsetsCompat;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-public class AdminPortal extends AppCompatActivity {
+public class StaffPortal extends AppCompatActivity {
 
-    TextView welcomeTextView;
     Button PersonalDetails;
+    TextView welcomeTextView;
     DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_portal);
+        setContentView(R.layout.activity_staff_portal);
 
         welcomeTextView = findViewById(R.id.welcome_text);
         PersonalDetails = findViewById(R.id.Info_Button);
@@ -35,28 +35,26 @@ public class AdminPortal extends AppCompatActivity {
 
         loadUserData();
 
-        // buttons
         PersonalDetails.setOnClickListener(v -> {
-            Intent personalDetailsIntent = new Intent(AdminPortal.this, PersonalDetailsPage.class);
+            Intent personalDetailsIntent = new Intent(StaffPortal.this, PersonalDetailsPage.class);
             startActivity(personalDetailsIntent);
         });
     }
 
-    // database
     private void loadUserData() {
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
         Cursor cursor = db.query("users", null, null, null, null, null, null);
 
-        // retrieve name
         if (cursor != null && cursor.moveToFirst()) {
             String firstName = cursor.getString(cursor.getColumnIndexOrThrow("firstname"));
             String lastName = cursor.getString(cursor.getColumnIndexOrThrow("lastname"));
 
-            // welcome
             welcomeTextView.setText("Welcome, " + firstName + " " + lastName + "!");
             cursor.close();
+        } else {
+            welcomeTextView.setText("No user data found. Please log in again.");
         }
-        // close db
+
         db.close();
     }
 }

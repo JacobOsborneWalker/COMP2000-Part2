@@ -19,28 +19,40 @@
             android:id="@+id/PersonalInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Personal Information" />
+            android:text="First Name:" />
 
         <EditText
-            android:id="@+id/LegalName"
+            android:id="@+id/FirstName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="FirstName"
             android:text="FirstName" />
 
+        <TextView
+            android:id="@+id/LastNameText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Last Name:" />
+
         <EditText
-            android:id="@+id/Username"
+            android:id="@+id/SecondName"
             android:layout_width="match_parent"
             android:layout_height="63dp"
             android:hint="LastName"
             android:text="LastName" />
 
         <EditText
-            android:id="@+id/PhoneNumber"
+            android:id="@+id/StaffID"
             android:layout_width="match_parent"
             android:layout_height="62dp"
             android:hint="StaffID"
             android:text="StaffID" />
+
+        <TextView
+            android:id="@+id/emailText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Email:" />
 
         <EditText
             android:id="@+id/EmailAdress"
@@ -49,10 +61,9 @@
             android:hint="Email"
             android:text="Email.Adress@gmail.com" />
 
-
         <TextView
-            android:id="@+id/CurrentJob"
-            android:layout_width="match_parent"
+            android:id="@+id/CurrentJobText"
+            android:layout_width="347dp"
             android:layout_height="wrap_content"
             android:text="Current Position" />
 
@@ -63,6 +74,12 @@
             android:hint="Department"
             android:text="Department" />
 
+        <TextView
+            android:id="@+id/CurrentsalaryText"
+            android:layout_width="347dp"
+            android:layout_height="wrap_content"
+            android:text="Current Salary" />
+
         <EditText
             android:id="@+id/JobSalary"
             android:layout_width="match_parent"
@@ -70,15 +87,26 @@
             android:hint="Salary"
             android:text="Salary" />
 
+        <TextView
+            android:id="@+id/StartedText"
+            android:layout_width="347dp"
+            android:layout_height="wrap_content"
+            android:text="Date started:" />
+
         <EditText
-            android:id="@+id/JobOffice"
+            android:id="@+id/StartDate"
             android:layout_width="match_parent"
             android:layout_height="62dp"
             android:hint="JoiningDate"
             android:text="Date Started" />
+        <TextView
+            android:id="@+id/levesText"
+            android:layout_width="347dp"
+            android:layout_height="wrap_content"
+            android:text="Leaves Remaining:" />
 
         <EditText
-            android:id="@+id/LeaveDates"
+            android:id="@+id/Leaves"
             android:layout_width="match_parent"
             android:layout_height="62dp"
             android:hint="Leave Dates"

@@ -1,5 +1,6 @@
 package com.example.comp20002;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     TextView textView;
     Button LoginButton;
     EditText EnteredEmail, UserID;
+    DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,21 +44,22 @@ public class MainActivity extends AppCompatActivity {
         EnteredEmail = findViewById(R.id.email_input);
         UserID = findViewById(R.id.id_input);
 
-        // Apply Window Insets
+        databaseHelper = new DatabaseHelper(this);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return WindowInsetsCompat.CONSUMED;
         });
 
-        // Logging interceptor
+        // logging
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor)
                 .build();
 
-        // Retrofit setup
+        // retrofit
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://10.224.41.11/comp2000/")
                 .client(client)
@@ -65,19 +68,18 @@ public class MainActivity extends AppCompatActivity {
 
         RequestUser requestUser = retrofit.create(RequestUser.class);
 
-
         LoginButton.setOnClickListener(v -> {
             String email = EnteredEmail.getText().toString().trim();
             String userIdString = UserID.getText().toString().trim();
 
+            // test data
             if (email.equalsIgnoreCase("test")) {
-                Intent intent = new Intent(MainActivity.this, AdminPortal.class);
-                intent.putExtra("fn", "Test");
-                intent.putExtra("ln", "User");
-                intent.putExtra("email", "email@gmail.com");
-                startActivity(intent);
+                saveUserDataToDatabase("Test", "User", "test@gmail.com", 111, "Mon, 24 Mar 2021 00:00:00 GMT", 30, 50000, "HR");
+                navigateToPortal("HR");
                 return;
             }
+
+            // valid
             if (email.isEmpty() || userIdString.isEmpty()) {
                 textView.setText("Please enter both email and ID.");
                 return;
@@ -93,38 +95,28 @@ public class MainActivity extends AppCompatActivity {
 
             textView.setText("Checking user credentials...");
 
+            // api
             requestUser.getUsers().enqueue(new Callback<List<UserData>>() {
                 @Override
                 public void onResponse(Call<List<UserData>> call, Response<List<UserData>> response) {
-                    runOnUiThread(() -> {
-                        if (response.isSuccessful() && response.body() != null) {
-                            boolean found = false;
+                    if (response.isSuccessful() && response.body() != null) {
+                        boolean found = false;
 
-                            for (UserData user : response.body()) {
-                                if (user.email.equalsIgnoreCase(email) && user.id == userId) {
-                                    found = true;
-
-                                    if ("HR".equalsIgnoreCase(user.department)) {
-                                        // Pass first and last name to AdminPortal if department is HR
-                                        Intent intent = new Intent(MainActivity.this, AdminPortal.class);
-                                        intent.putExtra("fn", user.firstname);
-                                        intent.putExtra("email", user.email);
-                                        intent.putExtra("ln", user.lastname);
-                                        startActivity(intent);
-                                    } else {
-                                        textView.setText("staff portal");
-                                    }
-                                    break;
-                                }
+                        for (UserData user : response.body()) {
+                            if (user.email != null && email != null && user.email.equalsIgnoreCase(email) && user.id == userId) {
+                                found = true;
+                                saveUserDataToDatabase(user.firstname, user.lastname, user.email, user.id, user.joiningdate, user.leaves, (int) user.salary, user.department);
+                                navigateToPortal(user.department);
+                                break;
                             }
-
-                            if (!found) {
-                                textView.setText("No matching user found. Please check your email and ID.");
-                            }
-                        } else {
-                            textView.setText("Error: Unable to fetch data. Response code: " + response.code());
                         }
-                    });
+
+                        if (!found) {
+                            runOnUiThread(() -> textView.setText("No matching user found. Please check your email and ID."));
+                        }
+                    } else {
+                        runOnUiThread(() -> textView.setText("Error: Unable to fetch data. Response code: " + response.code()));
+                    }
                 }
 
                 @Override
@@ -133,8 +125,34 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         });
+    }
 
+    private void saveUserDataToDatabase(String firstName, String lastName, String email, int id, String joiningDate, int leaves, int salary, String department) {
+        databaseHelper.clearUserData();
 
+        // add data to db
+        ContentValues values = new ContentValues();
+        values.put("firstname", firstName);
+        values.put("lastname", lastName);
+        values.put("email", email);
+        values.put("id", id);
+        values.put("joining_date", joiningDate);
+        values.put("leaves", leaves);
+        values.put("salary", salary);
+        values.put("department", department);
 
+        databaseHelper.insertUserData(values);
+    }
+
+    // check if hr
+    private void navigateToPortal(String department) {
+        Intent intent;
+        if ("HR".equalsIgnoreCase(department)) {
+            intent = new Intent(this, AdminPortal.class);
+        } else {
+            intent = new Intent(this, StaffPortal.class);
+        }
+        startActivity(intent);
+        finish();
     }
 }
