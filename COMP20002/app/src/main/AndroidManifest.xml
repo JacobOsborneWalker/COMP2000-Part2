@@ -25,6 +25,7 @@
         <activity android:name=".AdminPortal" />
         <activity android:name=".StaffPortal" />
         <activity android:name=".PersonalDetailsPage" />
+        <activity android:name=".AdminStaffView" />
     </application>
 
 </manifest>

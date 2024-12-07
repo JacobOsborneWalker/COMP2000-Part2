@@ -1,0 +1,22 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/employeeIcon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/baseline_account_circle_24"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true" />
+
+    <Button
+        android:id="@+id/employeeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/employeeIcon"
+        android:layout_marginStart="8dp"
+        android:focusable="false"
+        android:focusableInTouchMode="false" />
+</RelativeLayout>

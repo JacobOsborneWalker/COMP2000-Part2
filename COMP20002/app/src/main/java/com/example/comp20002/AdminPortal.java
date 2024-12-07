@@ -16,6 +16,8 @@ public class AdminPortal extends AppCompatActivity {
 
     TextView welcomeTextView;
     Button PersonalDetails;
+
+    Button StaffView;
     DatabaseHelper databaseHelper;
 
     @Override
@@ -25,6 +27,7 @@ public class AdminPortal extends AppCompatActivity {
 
         welcomeTextView = findViewById(R.id.welcome_text);
         PersonalDetails = findViewById(R.id.Info_Button);
+        StaffView = findViewById(R.id.StaffMangement);
         databaseHelper = new DatabaseHelper(this);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -38,6 +41,11 @@ public class AdminPortal extends AppCompatActivity {
         // buttons
         PersonalDetails.setOnClickListener(v -> {
             Intent personalDetailsIntent = new Intent(AdminPortal.this, PersonalDetailsPage.class);
+            startActivity(personalDetailsIntent);
+        });
+
+        StaffView.setOnClickListener(v -> {
+            Intent personalDetailsIntent = new Intent(AdminPortal.this, AdminStaffView.class);
             startActivity(personalDetailsIntent);
         });
     }
