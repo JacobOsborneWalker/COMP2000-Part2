@@ -72,15 +72,21 @@ public class AdminStaffView extends AppCompatActivity {
     }
 
     private void openDetailsPage(UserData userData) {
-//        Intent intent = new Intent(this, IndividualStaffView.class);
-//        intent.putExtra("user_id", userData.id);
-//        intent.putExtra("firstname", userData.firstname);
-//        intent.putExtra("lastname", userData.lastname);
-//        intent.putExtra("email", userData.email);
-//        intent.putExtra("department", userData.department);
-//        intent.putExtra("salary", userData.salary);
-//        intent.putExtra("joiningdate", userData.joiningdate);
-//        intent.putExtra("leaves", userData.leaves);
-//        startActivity(intent);
+        // Create an Intent to open the IndividualStaffPage activity
+        Intent intent = new Intent(this, IndividualStaffPage.class);
+
+        // Pass the employee details to the IndividualStaffPage using putExtra
+        intent.putExtra("user_id", userData.id);
+        intent.putExtra("firstname", userData.firstname);
+        intent.putExtra("lastname", userData.lastname);
+        intent.putExtra("email", userData.email);
+        intent.putExtra("department", userData.department);
+        intent.putExtra("salary", userData.salary);
+        intent.putExtra("joiningdate", userData.joiningdate);
+        intent.putExtra("leaves", userData.leaves);
+
+        // Start the IndividualStaffPage activity
+        startActivity(intent);
     }
+
 }

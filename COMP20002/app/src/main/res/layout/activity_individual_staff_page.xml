@@ -1,6 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/loginbackground"
+    android:gravity="center"
+    android:padding="16dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Name -->
+        <TextView
+            android:id="@+id/nameTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Name:"
+            android:textSize="16sp"
+            android:paddingBottom="8dp" />
+
+        <TextView
+            android:id="@+id/PersonalInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Full Name"
+            android:textSize="18sp"
+            android:paddingBottom="16dp" />
+
+        <!-- Email -->
+        <TextView
+            android:id="@+id/emailTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Email:"
+            android:textSize="16sp"
+            android:paddingBottom="8dp" />
+
+        <TextView
+            android:id="@+id/emailText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Email Address"
+            android:textSize="18sp"
+            android:paddingBottom="16dp" />
+
+        <!-- Department -->
+        <TextView
+            android:id="@+id/departmentTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Department:"
+            android:textSize="16sp"
+            android:paddingBottom="8dp" />
+
+        <TextView
+            android:id="@+id/CurrentJobText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Department Name"
+            android:textSize="18sp"
+            android:paddingBottom="16dp" />
+
+        <!-- Salary -->
+        <TextView
+            android:id="@+id/salaryTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Current Salary:"
+            android:textSize="16sp"
+            android:paddingBottom="8dp" />
+
+        <TextView
+            android:id="@+id/CurrentsalaryText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Salary Value"
+            android:textSize="18sp"
+            android:paddingBottom="16dp" />
+
+        <!-- Joining Date -->
+        <TextView
+            android:id="@+id/joiningDateTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Date Started:"
+            android:textSize="16sp"
+            android:paddingBottom="8dp" />
+
+        <TextView
+            android:id="@+id/StartedText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Joining Date"
+            android:textSize="18sp"
+            android:paddingBottom="16dp" />
+
+        <!-- Leaves Remaining -->
+        <TextView
+            android:id="@+id/leavesTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Leaves Remaining:"
+            android:textSize="16sp"
+            android:paddingBottom="8dp" />
+
+        <TextView
+            android:id="@+id/levesText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Leave Days Remaining"
+            android:textSize="18sp"
+            android:paddingBottom="16dp" />
+
+        <!-- Buttons -->
+        <Button
+            android:id="@+id/saveButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save Changes"
+            android:layout_marginTop="24dp" />
+
+        <Button
+            android:id="@+id/Return"
+            android:layout_width="177dp"
+            android:layout_height="wrap_content"
+            android:text="Return"
+            android:layout_marginTop="16dp"
+            android:layout_alignParentEnd="true" />
+    </LinearLayout>
+
+</RelativeLayout>

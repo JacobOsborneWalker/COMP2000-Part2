@@ -14,7 +14,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class StaffPortal extends AppCompatActivity {
 
-    Button PersonalDetails;
+    Button PersonalDetails, BookingButton; // Added BookingButton
     TextView welcomeTextView;
     DatabaseHelper databaseHelper;
 
@@ -25,6 +25,7 @@ public class StaffPortal extends AppCompatActivity {
 
         welcomeTextView = findViewById(R.id.welcome_text);
         PersonalDetails = findViewById(R.id.Info_Button);
+        BookingButton = findViewById(R.id.StaffMangement);
         databaseHelper = new DatabaseHelper(this);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -35,9 +36,16 @@ public class StaffPortal extends AppCompatActivity {
 
         loadUserData();
 
+        // Set up listener for the PersonalDetails button
         PersonalDetails.setOnClickListener(v -> {
             Intent personalDetailsIntent = new Intent(StaffPortal.this, PersonalDetailsPage.class);
             startActivity(personalDetailsIntent);
+        });
+
+        // Set up listener for the Booking button
+        BookingButton.setOnClickListener(v -> {
+            Intent bookingIntent = new Intent(StaffPortal.this, StaffBookings.class); // Navigate to StaffBookings page
+            startActivity(bookingIntent);
         });
     }
 
