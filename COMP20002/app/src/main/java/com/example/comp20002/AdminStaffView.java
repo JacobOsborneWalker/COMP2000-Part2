@@ -38,12 +38,11 @@ public class AdminStaffView extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     String responseBody = response.body().string();
 
-                    // Parse JSON response
+                    // parse JSON response
                     Gson gson = new Gson();
                     Type listType = new TypeToken<List<UserData>>() {}.getType();
                     List<UserData> employees = gson.fromJson(responseBody, listType);
 
-                    // Filter non-HR employees and create buttons
                     runOnUiThread(() -> {
                         for (UserData employee : employees) {
                             if (!"HR".equals(employee.department)) {
@@ -72,10 +71,8 @@ public class AdminStaffView extends AppCompatActivity {
     }
 
     private void openDetailsPage(UserData userData) {
-        // Create an Intent to open the IndividualStaffPage activity
-        Intent intent = new Intent(this, IndividualStaffPage.class);
 
-        // Pass the employee details to the IndividualStaffPage using putExtra
+        Intent intent = new Intent(this, IndividualStaffPage.class);
         intent.putExtra("user_id", userData.id);
         intent.putExtra("firstname", userData.firstname);
         intent.putExtra("lastname", userData.lastname);
@@ -85,7 +82,6 @@ public class AdminStaffView extends AppCompatActivity {
         intent.putExtra("joiningdate", userData.joiningdate);
         intent.putExtra("leaves", userData.leaves);
 
-        // Start the IndividualStaffPage activity
         startActivity(intent);
     }
 

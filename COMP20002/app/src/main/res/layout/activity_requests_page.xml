@@ -7,7 +7,7 @@
     android:padding="16dp"
     android:gravity="center">
 
-    <!-- Title Text -->
+
     <TextView
         android:id="@+id/pageTitle"
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
         android:gravity="center"
         android:layout_marginBottom="20dp"/>
 
-    <!-- Title for Requests -->
+
     <TextView
         android:id="@+id/requestsTitle"
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
         android:gravity="center"
         android:layout_marginBottom="10dp"/>
 
-    <!-- Dropdown to select the request for Accept/Deny -->
+
     <Spinner
         android:id="@+id/requestsSpinner"
         android:layout_width="match_parent"
@@ -37,7 +37,7 @@
         android:padding="8dp"
         android:layout_marginBottom="20dp"/>
 
-    <!-- Accept and Deny Buttons -->
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
             android:text="Accept"/>
     </LinearLayout>
 
-    <!-- Title for Notifications -->
+
     <TextView
         android:id="@+id/notificationsTitle"
         android:layout_width="match_parent"
@@ -70,7 +70,7 @@
         android:gravity="center"
         android:layout_marginBottom="10dp"/>
 
-    <!-- Dropdown to select the notification to Read -->
+
     <Spinner
         android:id="@+id/notificationsSpinner"
         android:layout_width="match_parent"
@@ -78,7 +78,7 @@
         android:padding="8dp"
         android:layout_marginBottom="20dp"/>
 
-    <!-- TextView to display the selected request -->
+
     <TextView
         android:id="@+id/selectedRequestTextView"
         android:layout_width="match_parent"
@@ -88,7 +88,7 @@
         android:paddingBottom="20dp"
         android:gravity="center"/>
 
-    <!-- TextView to display the selected notification -->
+
     <TextView
         android:id="@+id/selectedNotificationTextView"
         android:layout_width="match_parent"
@@ -98,7 +98,7 @@
         android:paddingBottom="20dp"
         android:gravity="center"/>
 
-    <!-- Read Button -->
+
     <Button
         android:id="@+id/readButton"
         android:layout_width="match_parent"
@@ -106,7 +106,7 @@
         android:text="Read"
         android:layout_marginBottom="20dp"/>
 
-    <!-- Return to Admin Portal Button -->
+
     <Button
         android:id="@+id/returnToAdminPortalButton"
         android:layout_width="match_parent"

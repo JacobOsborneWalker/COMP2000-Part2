@@ -32,19 +32,14 @@ public class NewBookings extends AppCompatActivity {
         startDate = Calendar.getInstance();
         endDate = Calendar.getInstance();
 
-        // Fetch remaining days from API (placeholder for now)
         fetchRemainingDays();
 
-        // Start date picker
         btnStartDate.setOnClickListener(v -> showDatePicker(startDate, btnStartDate));
 
-        // End date picker
         btnEndDate.setOnClickListener(v -> showDatePicker(endDate, btnEndDate));
 
-        // Confirm booking logic
         btnConfirmBooking.setOnClickListener(v -> calculateDaysBooked());
 
-        // Return to staff portal
         btnReturnToPortal.setOnClickListener(v -> {
             Intent intent = new Intent(NewBookings.this, StaffPortal.class);
             startActivity(intent);
@@ -53,8 +48,7 @@ public class NewBookings extends AppCompatActivity {
     }
 
     private void fetchRemainingDays() {
-        // Placeholder for fetching data from API
-        int remainingDays = 10; // Replace with API call
+        int remainingDays = 10;
         daysRemainingText.setText("Days Remaining: " + remainingDays);
     }
 
@@ -72,7 +66,6 @@ public class NewBookings extends AppCompatActivity {
             long difference = endDate.getTimeInMillis() - startDate.getTimeInMillis();
             int daysBetween = (int) (difference / (1000 * 60 * 60 * 24)) + 1;
 
-            // Subtract weekends
             Calendar temp = (Calendar) startDate.clone();
             int weekends = 0;
             while (!temp.after(endDate)) {

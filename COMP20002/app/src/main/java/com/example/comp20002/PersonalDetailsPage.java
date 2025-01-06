@@ -27,7 +27,6 @@ public class PersonalDetailsPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_details_page);
 
-        // Initialize views
         firstNameView = findViewById(R.id.FirstName);
         lastNameView = findViewById(R.id.SecondName);
         emailView = findViewById(R.id.EmailAdress);
@@ -38,15 +37,12 @@ public class PersonalDetailsPage extends AppCompatActivity {
         positionView = findViewById(R.id.JobTitle);
         saveButton = findViewById(R.id.saveButton);
 
-        // Assuming you have already loaded the data into the views
         loadUserData();
 
-        // Set an OnClickListener for the save button
         saveButton.setOnClickListener(v -> updateUserData());
     }
 
     private void loadUserData() {
-        // For testing, setting values here. Replace with actual logic to load from DB or API
         firstNameView.setText("John");
         lastNameView.setText("Doe");
         emailView.setText("john.doe@example.com");
@@ -56,11 +52,10 @@ public class PersonalDetailsPage extends AppCompatActivity {
         salaryView.setText("50000");
         positionView.setText("HR");
 
-        userId = jobIdView.getText().toString();  // Assuming jobId is used as user ID
+        userId = jobIdView.getText().toString();
     }
 
     private void updateUserData() {
-        // Get the data from the fields
         String firstName = firstNameView.getText().toString();
         String lastName = lastNameView.getText().toString();
         String email = emailView.getText().toString();
@@ -70,7 +65,6 @@ public class PersonalDetailsPage extends AppCompatActivity {
         String salary = salaryView.getText().toString();
         String position = positionView.getText().toString();
 
-        // Create the JSON object with the updated data
         JSONObject updatedData = new JSONObject();
         try {
             updatedData.put("firstname", firstName);
@@ -84,7 +78,6 @@ public class PersonalDetailsPage extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        // Make the API call to update the user data
         updateEmployeeDataToAPI(updatedData);
     }
 
@@ -94,8 +87,8 @@ public class PersonalDetailsPage extends AppCompatActivity {
 
             RequestBody body = RequestBody.create(updatedData.toString(), okhttp3.MediaType.parse("application/json; charset=utf-8"));
             Request request = new Request.Builder()
-                    .url(BASE_URL + userId)  // Append the user ID to the URL for the specific employee
-                    .put(body)  // Use PUT to update data
+                    .url(BASE_URL + userId)
+                    .put(body)
                     .build();
 
             try {

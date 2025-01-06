@@ -51,7 +51,6 @@
             android:id="@+id/StaffMangement"
             />
 
-        <!-- This is the merged StaffRequests button -->
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

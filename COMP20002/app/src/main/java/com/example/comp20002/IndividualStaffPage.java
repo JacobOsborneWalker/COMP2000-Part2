@@ -12,11 +12,9 @@ public class IndividualStaffPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_individual_staff_page);
 
-        // Get the Intent that started this activity
         Intent intent = getIntent();
 
-        // Retrieve the employee details from the Intent
-        int userId = intent.getIntExtra("user_id", -1); // Default value -1 if not found
+        int userId = intent.getIntExtra("user_id", -1);
         String firstName = intent.getStringExtra("firstname");
         String lastName = intent.getStringExtra("lastname");
         String email = intent.getStringExtra("email");
@@ -25,7 +23,6 @@ public class IndividualStaffPage extends AppCompatActivity {
         String joiningDate = intent.getStringExtra("joiningdate");
         String leaves = intent.getStringExtra("leaves");
 
-        // Find the TextViews to display the employee details
         TextView nameTextView = findViewById(R.id.nameTextView);
         TextView emailTextView = findViewById(R.id.emailTextView);
         TextView departmentTextView = findViewById(R.id.departmentTextView);
@@ -33,7 +30,6 @@ public class IndividualStaffPage extends AppCompatActivity {
         TextView joiningDateTextView = findViewById(R.id.joiningDateTextView);
         TextView leavesTextView = findViewById(R.id.leavesTextView);
 
-        // Check for null data and set the TextViews
         if (firstName != null && lastName != null) {
             nameTextView.setText(firstName + " " + lastName);
         } else {

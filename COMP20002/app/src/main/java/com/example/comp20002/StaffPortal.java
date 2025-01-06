@@ -14,7 +14,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class StaffPortal extends AppCompatActivity {
 
-    Button PersonalDetails, BookingButton; // Added BookingButton
+    Button PersonalDetails, BookingButton;
     TextView welcomeTextView;
     DatabaseHelper databaseHelper;
 
@@ -34,25 +34,21 @@ public class StaffPortal extends AppCompatActivity {
             return insets;
         });
 
-        // Get the passed user ID and leaves data
         int userId = getIntent().getIntExtra("user_id", -1);
         int leavesLeft = getIntent().getIntExtra("leaves_left", 0);
 
         loadUserData(userId, leavesLeft);
 
-        // Set up listener for the PersonalDetails button
         PersonalDetails.setOnClickListener(v -> {
             Intent personalDetailsIntent = new Intent(StaffPortal.this, PersonalDetailsPage.class);
             startActivity(personalDetailsIntent);
         });
 
-        // Set up listener for the Booking button
         BookingButton.setOnClickListener(v -> {
             Intent bookingIntent = new Intent(StaffPortal.this, StaffBookings.class);
-            // Pass the user ID and leaves as extras to the StaffBookings page
-            bookingIntent.putExtra("user_id", userId); // Pass user ID
-            bookingIntent.putExtra("leaves_left", leavesLeft); // Pass holidays left
-            bookingIntent.putExtra("remaining_days", leavesLeft); // Pass remaining days explicitly
+            bookingIntent.putExtra("user_id", userId);
+            bookingIntent.putExtra("leaves_left", leavesLeft);
+            bookingIntent.putExtra("remaining_days", leavesLeft);
             startActivity(bookingIntent);
         });
 
@@ -67,7 +63,6 @@ public class StaffPortal extends AppCompatActivity {
             String firstName = cursor.getString(cursor.getColumnIndexOrThrow("firstname"));
             String lastName = cursor.getString(cursor.getColumnIndexOrThrow("lastname"));
 
-            // Set the welcome text with the user's name and remaining leaves
             welcomeTextView.setText("Welcome, " + firstName + " " + lastName + "!");
             cursor.close();
         } else {

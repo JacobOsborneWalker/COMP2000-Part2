@@ -14,9 +14,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-// Import the ExpandableListAdapter class
-import com.example.comp20002.ExpandableListAdapter;
-
 public class StaffBookings extends AppCompatActivity {
 
     List<String> listDataHeader;
@@ -31,24 +28,24 @@ public class StaffBookings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_staff_bookings);
 
-        // Get the remainingDays and userId passed from the previous activity
+
         remainingDays = getIntent().getIntExtra("remaining_days", 0);
         userId = getIntent().getIntExtra("user_id", -1);
 
         Log.d("StaffBookings", "Remaining days: " + remainingDays);
         Log.d("StaffBookings", "User ID: " + userId);
 
-        // Initialize views
+
         ExpandableListView expandableListView = findViewById(R.id.expandableListView);
         remainingDaysTextView = findViewById(R.id.tvRemainingDays);
 
-        // Set the remaining days text
+
         remainingDaysTextView.setText("Remaining Days: " + remainingDays);
 
-        // Prepare data for the expandable list
+
         prepareListData();
 
-        // Initialize the adapter and set it to the expandable list view
+
         if (listDataHeader != null && listDataChild != null) {
             ExpandableListAdapter listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
             expandableListView.setAdapter(listAdapter);
@@ -57,14 +54,14 @@ public class StaffBookings extends AppCompatActivity {
             Log.e("StaffBookings", "Data not initialized properly!");
         }
 
-        // Button to return to StaffPortal
+
         Button returnToPortalButton = findViewById(R.id.btnReturnToPortal);
         returnToPortalButton.setOnClickListener(v -> {
             Intent intent = new Intent(StaffBookings.this, StaffPortal.class);
             startActivity(intent);
         });
 
-        // Button to create a new booking
+
         Button newBookingButton = findViewById(R.id.btnCreateNewBooking);
         newBookingButton.setOnClickListener(v -> {
             Intent intent = new Intent(StaffBookings.this, NewBookings.class);
@@ -78,17 +75,15 @@ public class StaffBookings extends AppCompatActivity {
         listDataHeader = new ArrayList<>();
         listDataChild = new HashMap<>();
 
-        // Adding headers
         listDataHeader.add("Approved Breaks");
         listDataHeader.add("Pending Breaks");
         listDataHeader.add("Past Breaks");
 
-        // Adding child data for each header
+
         List<String> approved = Arrays.asList("Option 1", "Option 2", "Option 3");
         List<String> pending = Arrays.asList("Option 1", "Option 2", "Option 3");
         List<String> past = Arrays.asList("Option 1", "Option 2", "Option 3");
 
-        // Put child data for each header
         listDataChild.put(listDataHeader.get(0), approved);
         listDataChild.put(listDataHeader.get(1), pending);
         listDataChild.put(listDataHeader.get(2), past);

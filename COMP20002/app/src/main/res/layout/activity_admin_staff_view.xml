@@ -13,7 +13,7 @@
         android:background="@drawable/loginbackground"
         android:padding="16dp">
 
-        <!-- Buttons will be added dynamically here -->
+
     </LinearLayout>
 
 </ScrollView>

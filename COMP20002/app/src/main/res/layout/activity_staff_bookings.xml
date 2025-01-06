@@ -6,7 +6,6 @@
     android:padding="16dp"
     android:background="@drawable/loginbackground">
 
-    <!-- Title for the page -->
     <TextView
         android:id="@+id/titleText"
         android:layout_width="wrap_content"
@@ -16,14 +15,13 @@
         android:textStyle="bold"
         android:layout_marginBottom="16dp" />
 
-    <!-- Expandable list view for bookings -->
     <ExpandableListView
         android:id="@+id/expandableListView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <!-- Navigation buttons -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
