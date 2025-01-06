@@ -64,7 +64,7 @@ public class StaffBookings extends AppCompatActivity {
 
         Button newBookingButton = findViewById(R.id.btnCreateNewBooking);
         newBookingButton.setOnClickListener(v -> {
-            Intent intent = new Intent(StaffBookings.this, NewBookings.class);
+            Intent intent = new Intent(StaffBookings.this, NewBooking.class);
             intent.putExtra("remaining_days", remainingDays);  // Pass remaining days
             intent.putExtra("user_id", userId);  // Pass user ID
             startActivity(intent);

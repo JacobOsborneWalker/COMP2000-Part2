@@ -28,7 +28,7 @@
         <activity android:name=".AdminStaffView" />
         <activity android:name=".IndividualStaffPage"/>
         <activity android:name=".StaffBookings"/>
-        <activity android:name=".NewBookings"/>
+        <activity android:name=".NewBooking"/>
         <activity android:name=".RequestsPage"></activity>
 
     </application>

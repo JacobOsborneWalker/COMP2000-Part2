@@ -23,7 +23,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String TABLE_HOLIDAY_REQUESTS = "holiday_requests";
     public static final String COLUMN_REQUEST_ID = "request_id";
-    private static final String COLUMN_USER_ID = "user_id";
+    public static final String COLUMN_USER_ID = "user_id";
     public static final String COLUMN_START_DATE = "start_date";
     public static final String COLUMN_END_DATE = "end_date";
     public static final String COLUMN_STATUS = "status";  // Assuming you might need a status for requests
