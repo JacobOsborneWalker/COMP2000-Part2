@@ -1,6 +1,8 @@
 package com.example.comp20002;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -8,9 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
 public class AdminPortal extends AppCompatActivity {
 
@@ -40,8 +39,10 @@ public class AdminPortal extends AppCompatActivity {
         loadUserData();
 
         PersonalDetails.setOnClickListener(v -> {
+            int userId = getLoggedInUserId();
+
             Intent personalDetailsIntent = new Intent(AdminPortal.this, PersonalDetailsPage.class);
-            startActivity(personalDetailsIntent);
+            personalDetailsIntent.putExtra("user_id", userId);
         });
 
         StaffView.setOnClickListener(v -> {
@@ -59,16 +60,30 @@ public class AdminPortal extends AppCompatActivity {
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
         Cursor cursor = db.query("users", null, null, null, null, null, null);
 
-        // retrieve name
         if (cursor != null && cursor.moveToFirst()) {
             String firstName = cursor.getString(cursor.getColumnIndexOrThrow("firstname"));
             String lastName = cursor.getString(cursor.getColumnIndexOrThrow("lastname"));
 
-            // welcome message
+
             welcomeTextView.setText("Welcome, " + firstName + " " + lastName + "!");
             cursor.close();
         }
-        // close the database
+
         db.close();
+    }
+
+    private int getLoggedInUserId() {
+
+        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+        Cursor cursor = db.query("users", new String[]{"id"}, null, null, null, null, null);
+
+        int userId = -1;
+        if (cursor != null && cursor.moveToFirst()) {
+            userId = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+            cursor.close();
+        }
+        db.close();
+
+        return userId;
     }
 }

@@ -49,7 +49,7 @@ public class RequestsPage extends AppCompatActivity {
         selectedRequestTextView.setText("Select a request");
         selectedNotificationTextView.setText("Select a notification");
 
-        String[] notificationsMessages = {"Notification 1", "Notification 2", "Notification 3"};
+        String[] notificationsMessages = {"No new notifications"};
         notificationsSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, notificationsMessages));
 
         fetchRequestsFromDatabase();
@@ -58,11 +58,7 @@ public class RequestsPage extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View view, int position, long id) {
                 String selectedMessage = parentView.getItemAtPosition(position).toString();
-                if (selectedMessage.equals("No holiday requests available")) {
-                    selectedRequestTextView.setText("No request selected.");
-                } else {
-                    selectedRequestTextView.setText("Selected Request: " + selectedMessage);
-                }
+                selectedRequestTextView.setText("Selected Request: " + selectedMessage);
             }
 
             @Override
@@ -95,8 +91,7 @@ public class RequestsPage extends AppCompatActivity {
 
         acceptButton.setOnClickListener(v -> {
             String selectedMessage = selectedRequestTextView.getText().toString();
-            if (selectedMessage.contains("Selected Request:") && !selectedMessage.contains("No holiday requests available")) {
-
+            if (selectedMessage.contains("Selected Request:")) {
                 String requestId = selectedMessage.split(":")[1].trim();
                 acceptOrDenyRequest(requestId, "accepted");
             } else {
@@ -106,8 +101,8 @@ public class RequestsPage extends AppCompatActivity {
 
         denyButton.setOnClickListener(v -> {
             String selectedMessage = selectedRequestTextView.getText().toString();
-            if (selectedMessage.contains("Selected Request:") && !selectedMessage.contains("No holiday requests available")) {
-                String requestId = selectedMessage.split(":")[1].trim(); // Extract the request ID from the text
+            if (selectedMessage.contains("Selected Request:")) {
+                String requestId = selectedMessage.split(":")[1].trim();
                 acceptOrDenyRequest(requestId, "denied");
             } else {
                 Toast.makeText(RequestsPage.this, "Please select a valid request to deny.", Toast.LENGTH_SHORT).show();
@@ -126,7 +121,6 @@ public class RequestsPage extends AppCompatActivity {
         if (cursor != null && cursor.getCount() > 0) {
             String[] requestsArray = new String[cursor.getCount()];
             int index = 0;
-
 
             int requestIdIndex = cursor.getColumnIndex(DatabaseHelper.COLUMN_REQUEST_ID);
             int startDateIndex = cursor.getColumnIndex(DatabaseHelper.COLUMN_START_DATE);
@@ -150,8 +144,7 @@ public class RequestsPage extends AppCompatActivity {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             requestsSpinner.setAdapter(adapter);
         } else {
-
-            String[] noRequests = {"No holiday requests available"};
+            String[] noRequests = {};
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, noRequests);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             requestsSpinner.setAdapter(adapter);

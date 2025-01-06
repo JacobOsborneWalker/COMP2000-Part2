@@ -1,18 +1,17 @@
 package com.example.comp20002;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import org.json.JSONException;
+import org.json.JSONObject;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import org.json.JSONException;
-import org.json.JSONObject;
+import android.util.Log;
 
 public class PersonalDetailsPage extends AppCompatActivity {
 
@@ -37,22 +36,32 @@ public class PersonalDetailsPage extends AppCompatActivity {
         positionView = findViewById(R.id.JobTitle);
         saveButton = findViewById(R.id.saveButton);
 
+
         loadUserData();
+
 
         saveButton.setOnClickListener(v -> updateUserData());
     }
 
     private void loadUserData() {
-        firstNameView.setText("John");
-        lastNameView.setText("Doe");
-        emailView.setText("john.doe@example.com");
-        jobIdView.setText("1");
-        joiningDateView.setText("2023-01-01");
-        leavesView.setText("30");
-        salaryView.setText("50000");
-        positionView.setText("HR");
 
-        userId = jobIdView.getText().toString();
+        String firstName = getIntent().getStringExtra("firstname");
+        String lastName = getIntent().getStringExtra("lastname");
+        String email = getIntent().getStringExtra("email");
+        String joiningDate = getIntent().getStringExtra("joiningDate");
+        int salary = getIntent().getIntExtra("salary", 0);
+        String position = getIntent().getStringExtra("position");
+        userId = String.valueOf(getIntent().getIntExtra("jobId", -1));
+        int leaves = getIntent().getIntExtra("leaves", 0);
+
+        firstNameView.setText(firstName);
+        lastNameView.setText(lastName);
+        emailView.setText(email);
+        jobIdView.setText(userId);
+        joiningDateView.setText(joiningDate);
+        leavesView.setText(String.valueOf(leaves));
+        salaryView.setText(String.valueOf(salary));
+        positionView.setText(position);
     }
 
     private void updateUserData() {
@@ -70,7 +79,7 @@ public class PersonalDetailsPage extends AppCompatActivity {
             updatedData.put("firstname", firstName);
             updatedData.put("lastname", lastName);
             updatedData.put("email", email);
-            updatedData.put("department", position);  // Assuming position is the department
+            updatedData.put("department", position);
             updatedData.put("salary", salary);
             updatedData.put("joiningdate", joiningDate);
             updatedData.put("leaves", leaves);

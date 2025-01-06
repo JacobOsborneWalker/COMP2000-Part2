@@ -1,45 +1,57 @@
 package com.example.comp20002;
 
 import android.app.DatePickerDialog;
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class NewBooking extends AppCompatActivity {
 
     private EditText startDateEditText;
     private EditText endDateEditText;
     private Button createBookingButton;
+    private TextView remainingDaysTextView;
     private DatabaseHelper databaseHelper;
+
+    private int userId;
+    private int remainingDays;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_booking);
 
-        // Initialize views
         startDateEditText = findViewById(R.id.startDateEditText);
         endDateEditText = findViewById(R.id.endDateEditText);
         createBookingButton = findViewById(R.id.createBookingButton);
+        remainingDaysTextView = findViewById(R.id.daysRemainingText);
+
+
+        userId = getIntent().getIntExtra("user_id", -1);
+        remainingDays = getIntent().getIntExtra("leaves_left", 0);
+
+
+        updateRemainingDaysText();
+
+
         databaseHelper = new DatabaseHelper(this);
 
-        // Set up date picker for startDateEditText
-        startDateEditText.setOnClickListener(v -> showDatePickerDialog(startDateEditText));
 
-        // Set up date picker for endDateEditText
+        startDateEditText.setOnClickListener(v -> showDatePickerDialog(startDateEditText));
         endDateEditText.setOnClickListener(v -> showDatePickerDialog(endDateEditText));
 
-        // Handle "Create Booking" button click
+
         createBookingButton.setOnClickListener(v -> {
             String startDate = startDateEditText.getText().toString();
             String endDate = endDateEditText.getText().toString();
@@ -49,48 +61,70 @@ public class NewBooking extends AppCompatActivity {
                 return;
             }
 
-            // Add the booking to the database
-            addBookingToDatabase(startDate, endDate);
+            int requestedDays = calculateDaysBetweenDates(startDate, endDate);
+
+            if (requestedDays <= 0) {
+                Toast.makeText(NewBooking.this, "End date must be after start date.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (requestedDays > remainingDays) {
+                Toast.makeText(NewBooking.this, "Insufficient remaining days for this booking.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            addBookingToDatabase(startDate, endDate, requestedDays);
         });
     }
 
-    // Show a DatePickerDialog and set the selected date on the provided EditText
     private void showDatePickerDialog(EditText editText) {
-        // Get current date
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        // Create and show the DatePickerDialog
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view, selectedYear, selectedMonth, selectedDay) -> {
-            // Update the EditText with the selected date
-            String date = selectedDay + "/" + (selectedMonth + 1) + "/" + selectedYear;
+            String date = String.format(Locale.getDefault(), "%02d/%02d/%d", selectedDay, selectedMonth + 1, selectedYear);
             editText.setText(date);
         }, year, month, day);
 
         datePickerDialog.show();
     }
 
-    // Method to add a booking to the database
-    private void addBookingToDatabase(String startDate, String endDate) {
-        SQLiteDatabase db = databaseHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(DatabaseHelper.COLUMN_START_DATE, startDate);
-        values.put(DatabaseHelper.COLUMN_END_DATE, endDate);
+    private int calculateDaysBetweenDates(String startDate, String endDate) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            Date start = sdf.parse(startDate);
+            Date end = sdf.parse(endDate);
 
-        // Insert the booking into the holiday requests table
-        long rowId = db.insert(DatabaseHelper.TABLE_HOLIDAY_REQUESTS, null, values);
+            if (start == null || end == null) return 0;
 
-        if (rowId != -1) {
-            Toast.makeText(NewBooking.this, "Booking created successfully.", Toast.LENGTH_SHORT).show();
-            // Optionally, clear input fields
+            long differenceInMillis = end.getTime() - start.getTime();
+            return (int) (differenceInMillis / (1000 * 60 * 60 * 24)) + 1;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    private void addBookingToDatabase(String startDate, String endDate, int requestedDays) {
+
+        boolean success = databaseHelper.insertHolidayRequest(userId, startDate, endDate, "pending");
+
+        if (success) {
+            remainingDays -= requestedDays;
+            updateRemainingDaysText();
+            Toast.makeText(NewBooking.this, "Booking created successfully. Remaining days: " + remainingDays, Toast.LENGTH_SHORT).show();
+
             startDateEditText.setText("");
             endDateEditText.setText("");
         } else {
             Toast.makeText(NewBooking.this, "Failed to create booking.", Toast.LENGTH_SHORT).show();
         }
+    }
 
-        db.close();
+
+    private void updateRemainingDaysText() {
+        remainingDaysTextView.setText("Remaining Days: " + remainingDays);
     }
 }

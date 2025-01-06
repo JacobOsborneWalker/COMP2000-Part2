@@ -10,7 +10,7 @@ public class UserData {
     String joiningdate;
     int leaves;
 
-    // Getters for better encapsulation (optional)
+
     public int getId() {
         return id;
     }

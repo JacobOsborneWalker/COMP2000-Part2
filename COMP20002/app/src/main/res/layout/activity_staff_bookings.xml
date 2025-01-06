@@ -45,15 +45,6 @@
             android:text="Create New Booking"
             android:padding="8dp"
             android:textColor="@color/white" />
-        <TextView
-            android:id="@+id/tvRemainingDays"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Remaining Days: 0"
-            android:textSize="18sp"
-            android:layout_marginTop="20dp"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/expandableListView"/>
 
     </LinearLayout>
 
