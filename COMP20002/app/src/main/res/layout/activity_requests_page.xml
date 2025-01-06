@@ -112,4 +112,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Return to Admin Portal"/>
+
+    <TextView
+        android:id="@+id/textViewRequests"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Holiday Requests will appear here"
+        android:layout_marginTop="16dp"
+        android:textSize="16sp"/>
+
+
+
 </LinearLayout>

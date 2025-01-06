@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
             // test data
             if (email.equalsIgnoreCase("test")) {
                 saveUserDataToDatabase("Test", "User", "test@gmail.com", 111, "Mon, 24 Mar 2021 00:00:00 GMT", 30, 50000, "HR");
-                navigateToPortal("HR");
+                navigateToPortal("HR", 111, 30); // Pass default values for test user
                 return;
             }
 
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
             textView.setText("Checking user credentials...");
 
-            // api
+            // api call
             requestUser.getUsers().enqueue(new Callback<List<UserData>>() {
                 @Override
                 public void onResponse(Call<List<UserData>> call, Response<List<UserData>> response) {
@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
                             if (user.email != null && email != null && user.email.equalsIgnoreCase(email) && user.id == userId) {
                                 found = true;
                                 saveUserDataToDatabase(user.firstname, user.lastname, user.email, user.id, user.joiningdate, user.leaves, (int) user.salary, user.department);
-                                navigateToPortal(user.department);
+                                navigateToPortal(user.department, user.id, user.leaves);
                                 break;
                             }
                         }
@@ -144,15 +144,19 @@ public class MainActivity extends AppCompatActivity {
         databaseHelper.insertUserData(values);
     }
 
-    // check if hr
-    private void navigateToPortal(String department) {
+    // Check if HR
+    private void navigateToPortal(String department, int userId, int leaves) {
         Intent intent;
         if ("HR".equalsIgnoreCase(department)) {
             intent = new Intent(this, AdminPortal.class);
         } else {
             intent = new Intent(this, StaffPortal.class);
+            // Pass the user ID and leaves as extras to the StaffPortal
+            intent.putExtra("user_id", userId);
+            intent.putExtra("leaves_left", leaves);
         }
         startActivity(intent);
         finish();
     }
+
 }
